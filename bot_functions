@@ -1,0 +1,30 @@
+// these are the basic bot functions of turning left, turning right, go fwd, and clear program
+// using Arduino Uno R3 and eventually an iOS/Android app with a Bluetooth LE shield/module for serial communication
+
+// setting up constants
+const int switchPin = 2; // push button hooked up to digital io pin 2 - to be driven as an input
+const int motorPin = 9; // mosfet gate hooked up to digital io pin 9 - to be driven as an output
+int switchState = 0; // to hold the value of the switch
+
+// declaring outputs and inputs
+void setup() {
+  pinMode(motorPin, OUTPUT); 
+  pinMode(switchPin, INPUT);
+}  
+
+// creating a loop to read the button and drive the motor accordingly
+
+void loop() {
+  switchState = digitalRead(switchPin); // reading the state of the push button via the switchPin
+  
+  if (switchState == HIGH) {
+    digitalWrite(motorPin, HIGH);
+    delay(5000); // runs motor for 5 seconds
+  }
+  else {
+    digitalWrite(motorPin, LOW);
+  }
+}
+    
+
+
