@@ -1,3 +1,4 @@
+/* commenting out previous test example and may toggle need based on user input 
 // these are the basic bot functions of turning left, turning right, go fwd, and clear program
 // using Arduino Uno R3 and eventually an iOS/Android app with a Bluetooth LE shield/module for serial communication
 
@@ -25,6 +26,46 @@ void loop() {
     digitalWrite(motorPin, LOW);
   }
 }
+*/    
+
+// naming constants
+const int controlPin1 = 2;
+const int controlPin2 = 3;
+const int enablePin = 9;
+const int directionSwitchPin = 4;
+const int onOffSwitchStateSwitchPin = 5;
+const int potPin = A0;
+
+// creating variables for remembering program state
+int onOffswitchState = 0; // holds value for main on/off switch
+int previousOnOffSwitchState = 0; // holds previous value for main on/off switch
+int directionSwitchState = 0; // holds value for the switch that controls direction 
+int previousDirectionSwitchState = 0; // holds previous value for the switch that controls direction
+
+
+// creating variables for motor control
+int motorEnabled = 0;
+int motorSpeed = 0; // this variable keeps track whether or not the motor is spinning
+int motorDirection = 1; // this variable keeps track of the direction 
+
+// declaring the digital pins as inputs or outputs
+void setup(){
+  pinMode(onOffSwitchStateSwitchPin, INPUT);
+  pinMode(directionSwitchPin, INPUT);
+  pinMode(controlPin1, OUTPUT);
+  pinMode(controlPin2, OUTPUT);
+  pinMode(enablePin, OUTPUT);
     
+  // turn the motor off during the start
+  digitalWrite(enablePin, LOW);
+}
 
-
+// reading the sensor information
+void loop(){
+  onOffSwitchState = digitalRead(onOffSwitchStatePin);
+  delay(1);
+  directionSwitchState = digitalRead(directionSwitchPin);
+  motorSpeed = analogRead(potPin)/4;
+  
+  //check if on/off sensor has changed
+  
