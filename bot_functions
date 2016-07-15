@@ -37,15 +37,15 @@ const int onOffSwitchStateSwitchPin = 5;
 const int potPin = A0;
 
 // creating variables for remembering program state
-int onOffswitchState = 0; // holds value for main on/off switch
+int onOffSwitchState = 0; // holds value for main on/off switch
 int previousOnOffSwitchState = 0; // holds previous value for main on/off switch
 int directionSwitchState = 0; // holds value for the switch that controls direction 
 int previousDirectionSwitchState = 0; // holds previous value for the switch that controls direction
 
 
 // creating variables for motor control
-int motorEnabled = 0;
-int motorSpeed = 0; // this variable keeps track whether or not the motor is spinning
+int motorEnabled = 0; // this variable keeps track whether or not the motor is spinning
+int motorSpeed = 0;
 int motorDirection = 1; // this variable keeps track of the direction 
 
 // declaring the digital pins as inputs or outputs
@@ -67,5 +67,41 @@ void loop(){
   directionSwitchState = digitalRead(directionSwitchPin);
   motorSpeed = analogRead(potPin)/4;
   
-  //check if on/off sensor has changed
-  
+  // check if on/off sensor has changed
+	if(onOffSwitchState != previousOnOffSwitchState){
+		//not sure if i need the if statement below or if i can just go into switching of motor power 
+		if(onOffSwitchState == HIGH){
+			motorEnabled = !motorEnabled;
+		}
+	}
+
+	// check to see if the direction has changed
+	if(directionSwitchState != previousDirectionSwitchState){
+		//not sure if i need the if statement below or if i can just go ahead and switch polarity of motor direction
+		if(directionSwitchState == HIGH){
+			motorDirection = !motorDirection;
+		}
+	}
+
+	// change pins to change motor in proper direction
+	if(motorDirection == 1){
+		digitalWrite(controlPin1, HIGH);
+		digitalWrite(controlPin2, LOW);
+	}
+	else{
+		digitalWrite(controlPin1, LOW);
+		digitalWrite(controlPin2, HIGH);
+	}
+
+	// pwm the motor if it is enabled
+	if(motorEnabled == 1){
+		analogWrite(enablePin, motorSpeed);
+	}
+	else{
+		analogWrite(enablePin, 0)
+	}
+
+	// save the current states for the next loop()
+	previousDirectionSwitchState = directionSwitchState;
+	previousOnOffSwitchState = onOffSwitchState;
+} 
