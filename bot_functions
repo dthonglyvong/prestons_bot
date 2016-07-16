@@ -62,7 +62,7 @@ void setup(){
 
 // reading the sensor information
 void loop(){
-  onOffSwitchState = digitalRead(onOffSwitchStatePin);
+  onOffSwitchState = digitalRead(onOffSwitchStateSwitchPin);
   delay(1);
   directionSwitchState = digitalRead(directionSwitchPin);
   motorSpeed = analogRead(potPin)/4;
@@ -98,7 +98,7 @@ void loop(){
 		analogWrite(enablePin, motorSpeed);
 	}
 	else{
-		analogWrite(enablePin, 0)
+		analogWrite(enablePin, 0);
 	}
 
 	// save the current states for the next loop()
